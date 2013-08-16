@@ -54,7 +54,7 @@ public class MainActivity extends Activity /* implements
 
     					if (touchCount == 0) { return true; }
     					
-//    					selectedCount++;
+    					//selectedCount++;
     					
     					if (touchCount == 2) {
     						touchCount = 0;
