@@ -69,8 +69,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         mSquare.draw(mMVPMatrix);
 
         // Create a rotation for the triangle
-//        long time = SystemClock.uptimeMillis() % 4000L;
-//        float angle = 0.090f * ((int) time);
+        //long time = SystemClock.uptimeMillis() % 4000L;
+        //float angle = 0.090f * ((int) time);
         Matrix.setRotateM(mRotationMatrix, 0, mAngle, 0, 0, -1.0f);
 
         // Combine the rotation matrix with the projection and camera view
@@ -270,8 +270,9 @@ class Square {
 
     private final int vertexStride = COORDS_PER_VERTEX * 4; // 4 bytes per vertex
 
+    // easy way to test if deployment to phone is making a difference
     // Set color with red, green, blue and alpha (opacity) values
-    float color[] = { 0.2f, 0.709803922f, 0.898039216f, 1.0f };
+    float color[] = { 0.5f, 0.209803922f, 0.398039216f, 1.0f };
 
     public Square() {
         // initialize vertex byte buffer for shape coordinates
