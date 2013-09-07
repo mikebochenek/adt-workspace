@@ -37,7 +37,7 @@ public class Square {
     // number of coordinates per vertex in this array
     static final int COORDS_PER_VERTEX = 3;
     static float squareCoords[] = { -0.5f,  0.5f, 0.0f,   // top left
-                                    -0.5f, -0.5f, 0.0f,   // bottom left
+                                    -0.3f, -0.3f, 0.0f,   // bottom left
                                      0.5f, -0.5f, 0.0f,   // bottom right
                                      0.5f,  0.5f, 0.0f }; // top right
 
