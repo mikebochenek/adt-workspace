@@ -18,7 +18,7 @@ public class MainActivity extends Activity /* implements
  		GestureDetector.OnDoubleTapListener*/  {
 
 	/* https://developer.android.com/reference/android/util/Log.html */
-	private static final String TAG = "MyActivity";
+	private static final String TAG = "MyPuzzleActivity";
 	
 	private int touchCount = 0;
 	private int selectedCount = 0;
