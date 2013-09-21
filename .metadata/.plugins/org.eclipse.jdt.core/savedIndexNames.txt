@@ -1,0 +1,4 @@
+INDEX VERSION 1.126+/home/mike/Dev/adt-workspace/.metadata/.plugins/org.eclipse.jdt.core
+3803323647.index
+1059374458.index
+694691136.index
