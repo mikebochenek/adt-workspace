@@ -1,5 +1,6 @@
-Linux Mint Eclipse ADT Workspace (with everything)
-===============================
+Linux Mint Eclipse ADT Workspace 
+-------------
+(with everything)
 
 /home/mike/Dev/adt-workspace
 
