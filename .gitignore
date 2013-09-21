@@ -4,3 +4,5 @@
 *.class
 bin/*
 test/bin/*
+OpenGLES20Complete/bin/*
+MyFirstApp/bin/*
