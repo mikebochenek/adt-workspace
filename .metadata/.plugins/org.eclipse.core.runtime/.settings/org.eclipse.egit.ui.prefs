@@ -1,4 +1,4 @@
-commit_dialog_history_messages=<?xml version\="1.0" encoding\="UTF-8"?>\n<messages>\n<message>not worthy of a commit</message>\n<message>removing silly copyrights</message>\n<message>test git commit from within eclipse</message>\n<message>again trying commit from eclipse</message>\n<message>try test commit from within eclipse</message>\n</messages>
+commit_dialog_history_messages=<?xml version\="1.0" encoding\="UTF-8"?>\n<messages>\n<message>testing git commit and push from eclipse</message>\n<message>not worthy of a commit</message>\n<message>removing silly copyrights</message>\n<message>test git commit from within eclipse</message>\n<message>again trying commit from eclipse</message>\n<message>try test commit from within eclipse</message>\n</messages>
 eclipse.preferences.version=1
 merge_mode=0
 resourcehistory_graph_split=500,500

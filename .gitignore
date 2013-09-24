@@ -2,6 +2,7 @@
 #
 
 *.class
+.metadata/*
 bin/*
 test/bin/*
 OpenGLES20Complete/bin/*

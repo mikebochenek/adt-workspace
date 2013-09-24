@@ -3135,3 +3135,517 @@ Caused by: org.eclipse.jgit.errors.TransportException: https://github.com/mikebo
 	at org.eclipse.jgit.transport.Transport.push(Transport.java:1162)
 	at org.eclipse.jgit.api.PushCommand.call(PushCommand.java:153)
 	... 4 more
+!SESSION 2013-09-24 21:02:30.501 -----------------------------------------------
+eclipse.buildId=v22.0.1-685705
+java.version=1.6.0_27
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=linux, ARCH=x86, WS=gtk, NL=en_US
+Framework arguments:  -product com.android.ide.eclipse.adt.package.product
+Command-line arguments:  -os linux -ws gtk -arch x86 -product com.android.ide.eclipse.adt.package.product
+
+!ENTRY org.eclipse.jdt.core 4 4 2013-09-24 21:11:35.427
+!MESSAGE Exception occurred during problem detection:
+----------------------------------- SOURCE BEGIN -------------------------------------
+package com.example.test;
+
+import java.util.Arrays;
+import java.util.Collections;
+
+import android.os.Bundle;
+import android.app.Activity;
+import android.util.Log;
+import android.view.GestureDetector;
+import android.view.Menu;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
+import android.widget.ImageView;
+
+public class MainActivity extends Activity /* implements 
+		GestureDetector.OnGestureListener,
+ 		GestureDetector.OnDoubleTapListener*/  {
+
+	/* https://developer.android.com/reference/android/util/Log.html */
+	private static final String TAG = "MyPuzzleActivity";
+	
+	private int touchCount = 0;
+	private int selectedCount = 0;
+	private PuzzleTile[] tiles = new PuzzleTile[8];
+	private ImageView[] images = new ImageView[8];
+	private final int[] imageIds = {R.id.imageView1, R.id.imageView2, R.id.imageView3, R.id.imageView4, R.id.imageView5, R.id.imageView6, R.id.imageView7, R.id.imageView8};
+	
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	
+    	generateTiles();
+    	
+    	for (int i = 0; i < imageIds.length; i++) {
+        	ImageView imgView = (ImageView) findViewById(imageIds[i]);
+        	images[i] = imgView;
+        	
+    		imgView.setOnTouchListener(new OnTouchListener() {
+    			public boolean onTouch(View v, MotionEvent event) {
+    				Log.i(TAG, "inside my touch event");
+    				
+    				boolean b = event.getDownTime() > 5;
+    				Log.i(TAG, " -- " + event.getDownTime() + " ms");
+    				
+    				if (v instanceof ImageView && selectedCount < 3 && touchCount < 2) {
+    					touchCount++;
+
+    					if (touchCount == 0) { return true; }
+    					
+    					//selectedCount++;
+    					
+    					if (touchCount == 2) {
+    						touchCount = 0;
+    					}
+    					
+    					PuzzleTile tile = tiles[findIndex((ImageView)v)];
+    					if (tile.isFaceup()) {
+    						((ImageView)v).setImageResource(R.drawable.question);
+    						tile.setFaceup(false);
+    					} else {
+            		    	((ImageView)v).setImageResource(tile.getImageId());
+            		    	tile.setFaceup(true);
+    					}
+    				}
+    				return true;
+    			}
+    		});
+    	}
+    	
+
+        //getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+
+	private void generateTiles() {
+    	for (int i = 0; i < imageIds.length; i++) {
+    		tiles[i] = new PuzzleTile();
+    	}
+    	tiles[0].setImageId(R.drawable.luke);
+    	tiles[1].setImageId(R.drawable.luke);
+    	tiles[2].setImageId(R.drawable.babcia);
+    	tiles[3].setImageId(R.drawable.babcia);
+    	tiles[4].setImageId(R.drawable.dziadek);
+    	tiles[5].setImageId(R.drawable.dziadek);
+    	tiles[6].setImageId(R.drawable.daddy);
+    	tiles[7].setImageId(R.drawable.daddy);
+    	
+    	Collections.shuffle(Arrays.asList(tiles));
+    	
+	}
+    
+    private int findIndex(ImageView v) {
+    	for (int i = 0; i < images.length; i++) {
+    		if (v.equals(images[i])) {
+    			return i;
+    		}
+    	}
+    	return -1;
+    }
+    
+}
+
+----------------------------------- SOURCE END -------------------------------------
+!STACK 0
+java.lang.NullPointerException
+	at org.eclipse.jdt.internal.compiler.lookup.PackageBinding.addType(PackageBinding.java:68)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:695)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:676)
+	at org.eclipse.jdt.internal.compiler.Compiler.accept(Compiler.java:298)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.askForType(LookupEnvironment.java:127)
+	at org.eclipse.jdt.internal.compiler.lookup.UnresolvedReferenceBinding.resolve(UnresolvedReferenceBinding.java:54)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.resolveType(BinaryTypeBinding.java:131)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.enclosingType(BinaryTypeBinding.java:714)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.<init>(BinaryTypeBinding.java:191)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:680)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:676)
+	at org.eclipse.jdt.internal.compiler.Compiler.accept(Compiler.java:298)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.askForType(LookupEnvironment.java:127)
+	at org.eclipse.jdt.internal.compiler.lookup.UnresolvedReferenceBinding.resolve(UnresolvedReferenceBinding.java:54)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.resolveType(BinaryTypeBinding.java:131)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.resolveTypesFor(BinaryTypeBinding.java:1126)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier15.computeSubstituteMethod(MethodVerifier15.java:755)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier15.isParameterSubsignature(MethodVerifier15.java:1005)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier15.areMethodsCompatible(MethodVerifier15.java:42)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier.computeInheritedMethods(MethodVerifier.java:621)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier.computeInheritedMethods(MethodVerifier.java:558)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier.verify(MethodVerifier.java:949)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier15.verify(MethodVerifier15.java:1066)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier.verify(MethodVerifier.java:959)
+	at org.eclipse.jdt.internal.compiler.lookup.SourceTypeBinding.verifyMethods(SourceTypeBinding.java:1946)
+	at org.eclipse.jdt.internal.compiler.lookup.CompilationUnitScope.verifyMethods(CompilationUnitScope.java:792)
+	at org.eclipse.jdt.internal.compiler.Compiler.resolve(Compiler.java:917)
+	at org.eclipse.jdt.internal.compiler.Compiler.resolve(Compiler.java:965)
+	at org.eclipse.jdt.internal.core.CompilationUnitProblemFinder.process(CompilationUnitProblemFinder.java:203)
+	at org.eclipse.jdt.internal.core.CompilationUnitProblemFinder.process(CompilationUnitProblemFinder.java:269)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:190)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:89)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:728)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:788)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1247)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:126)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:108)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:89)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:87)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:151)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:86)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:104)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:77)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:206)
+
+!ENTRY org.eclipse.jdt.ui 4 2 2013-09-24 21:11:35.435
+!MESSAGE Problems occurred when invoking code from plug-in: "org.eclipse.jdt.ui".
+!STACK 1
+Java Model Exception: java.lang.NullPointerException
+	at org.eclipse.jdt.internal.core.CompilationUnitProblemFinder.process(CompilationUnitProblemFinder.java:247)
+	at org.eclipse.jdt.internal.core.CompilationUnitProblemFinder.process(CompilationUnitProblemFinder.java:269)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:190)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:89)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:728)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:788)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1247)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:126)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:108)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:89)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:87)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:151)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:86)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:104)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:77)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:206)
+Caused by: java.lang.NullPointerException
+	at org.eclipse.jdt.internal.compiler.lookup.PackageBinding.addType(PackageBinding.java:68)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:695)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:676)
+	at org.eclipse.jdt.internal.compiler.Compiler.accept(Compiler.java:298)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.askForType(LookupEnvironment.java:127)
+	at org.eclipse.jdt.internal.compiler.lookup.UnresolvedReferenceBinding.resolve(UnresolvedReferenceBinding.java:54)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.resolveType(BinaryTypeBinding.java:131)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.enclosingType(BinaryTypeBinding.java:714)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.<init>(BinaryTypeBinding.java:191)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:680)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:676)
+	at org.eclipse.jdt.internal.compiler.Compiler.accept(Compiler.java:298)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.askForType(LookupEnvironment.java:127)
+	at org.eclipse.jdt.internal.compiler.lookup.UnresolvedReferenceBinding.resolve(UnresolvedReferenceBinding.java:54)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.resolveType(BinaryTypeBinding.java:131)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.resolveTypesFor(BinaryTypeBinding.java:1126)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier15.computeSubstituteMethod(MethodVerifier15.java:755)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier15.isParameterSubsignature(MethodVerifier15.java:1005)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier15.areMethodsCompatible(MethodVerifier15.java:42)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier.computeInheritedMethods(MethodVerifier.java:621)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier.computeInheritedMethods(MethodVerifier.java:558)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier.verify(MethodVerifier.java:949)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier15.verify(MethodVerifier15.java:1066)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier.verify(MethodVerifier.java:959)
+	at org.eclipse.jdt.internal.compiler.lookup.SourceTypeBinding.verifyMethods(SourceTypeBinding.java:1946)
+	at org.eclipse.jdt.internal.compiler.lookup.CompilationUnitScope.verifyMethods(CompilationUnitScope.java:792)
+	at org.eclipse.jdt.internal.compiler.Compiler.resolve(Compiler.java:917)
+	at org.eclipse.jdt.internal.compiler.Compiler.resolve(Compiler.java:965)
+	at org.eclipse.jdt.internal.core.CompilationUnitProblemFinder.process(CompilationUnitProblemFinder.java:203)
+	... 16 more
+Caused by: java.lang.NullPointerException
+	at org.eclipse.jdt.internal.compiler.lookup.PackageBinding.addType(PackageBinding.java:68)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:695)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:676)
+	at org.eclipse.jdt.internal.compiler.Compiler.accept(Compiler.java:298)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.askForType(LookupEnvironment.java:127)
+	at org.eclipse.jdt.internal.compiler.lookup.UnresolvedReferenceBinding.resolve(UnresolvedReferenceBinding.java:54)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.resolveType(BinaryTypeBinding.java:131)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.enclosingType(BinaryTypeBinding.java:714)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.<init>(BinaryTypeBinding.java:191)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:680)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:676)
+	at org.eclipse.jdt.internal.compiler.Compiler.accept(Compiler.java:298)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.askForType(LookupEnvironment.java:127)
+	at org.eclipse.jdt.internal.compiler.lookup.UnresolvedReferenceBinding.resolve(UnresolvedReferenceBinding.java:54)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.resolveType(BinaryTypeBinding.java:131)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.resolveTypesFor(BinaryTypeBinding.java:1126)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier15.computeSubstituteMethod(MethodVerifier15.java:755)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier15.isParameterSubsignature(MethodVerifier15.java:1005)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier15.areMethodsCompatible(MethodVerifier15.java:42)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier.computeInheritedMethods(MethodVerifier.java:621)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier.computeInheritedMethods(MethodVerifier.java:558)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier.verify(MethodVerifier.java:949)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier15.verify(MethodVerifier15.java:1066)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier.verify(MethodVerifier.java:959)
+	at org.eclipse.jdt.internal.compiler.lookup.SourceTypeBinding.verifyMethods(SourceTypeBinding.java:1946)
+	at org.eclipse.jdt.internal.compiler.lookup.CompilationUnitScope.verifyMethods(CompilationUnitScope.java:792)
+	at org.eclipse.jdt.internal.compiler.Compiler.resolve(Compiler.java:917)
+	at org.eclipse.jdt.internal.compiler.Compiler.resolve(Compiler.java:965)
+	at org.eclipse.jdt.internal.core.CompilationUnitProblemFinder.process(CompilationUnitProblemFinder.java:203)
+	at org.eclipse.jdt.internal.core.CompilationUnitProblemFinder.process(CompilationUnitProblemFinder.java:269)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:190)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:89)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:728)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:788)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1247)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:126)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:108)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:89)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:87)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:151)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:86)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:104)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:77)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:206)
+!SUBENTRY 1 org.eclipse.jdt.core 4 1005 2013-09-24 21:11:35.436
+!MESSAGE java.lang.NullPointerException
+!STACK 0
+java.lang.NullPointerException
+	at org.eclipse.jdt.internal.compiler.lookup.PackageBinding.addType(PackageBinding.java:68)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:695)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:676)
+	at org.eclipse.jdt.internal.compiler.Compiler.accept(Compiler.java:298)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.askForType(LookupEnvironment.java:127)
+	at org.eclipse.jdt.internal.compiler.lookup.UnresolvedReferenceBinding.resolve(UnresolvedReferenceBinding.java:54)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.resolveType(BinaryTypeBinding.java:131)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.enclosingType(BinaryTypeBinding.java:714)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.<init>(BinaryTypeBinding.java:191)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:680)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:676)
+	at org.eclipse.jdt.internal.compiler.Compiler.accept(Compiler.java:298)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.askForType(LookupEnvironment.java:127)
+	at org.eclipse.jdt.internal.compiler.lookup.UnresolvedReferenceBinding.resolve(UnresolvedReferenceBinding.java:54)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.resolveType(BinaryTypeBinding.java:131)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.resolveTypesFor(BinaryTypeBinding.java:1126)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier15.computeSubstituteMethod(MethodVerifier15.java:755)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier15.isParameterSubsignature(MethodVerifier15.java:1005)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier15.areMethodsCompatible(MethodVerifier15.java:42)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier.computeInheritedMethods(MethodVerifier.java:621)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier.computeInheritedMethods(MethodVerifier.java:558)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier.verify(MethodVerifier.java:949)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier15.verify(MethodVerifier15.java:1066)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier.verify(MethodVerifier.java:959)
+	at org.eclipse.jdt.internal.compiler.lookup.SourceTypeBinding.verifyMethods(SourceTypeBinding.java:1946)
+	at org.eclipse.jdt.internal.compiler.lookup.CompilationUnitScope.verifyMethods(CompilationUnitScope.java:792)
+	at org.eclipse.jdt.internal.compiler.Compiler.resolve(Compiler.java:917)
+	at org.eclipse.jdt.internal.compiler.Compiler.resolve(Compiler.java:965)
+	at org.eclipse.jdt.internal.core.CompilationUnitProblemFinder.process(CompilationUnitProblemFinder.java:203)
+	at org.eclipse.jdt.internal.core.CompilationUnitProblemFinder.process(CompilationUnitProblemFinder.java:269)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:190)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:89)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:728)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:788)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1247)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:126)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:108)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:89)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:87)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:151)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:86)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:104)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:77)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:206)
+!SUBENTRY 1 org.eclipse.jdt.core 4 1005 2013-09-24 21:11:35.437
+!MESSAGE java.lang.NullPointerException
+!STACK 0
+java.lang.NullPointerException
+	at org.eclipse.jdt.internal.compiler.lookup.PackageBinding.addType(PackageBinding.java:68)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:695)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:676)
+	at org.eclipse.jdt.internal.compiler.Compiler.accept(Compiler.java:298)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.askForType(LookupEnvironment.java:127)
+	at org.eclipse.jdt.internal.compiler.lookup.UnresolvedReferenceBinding.resolve(UnresolvedReferenceBinding.java:54)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.resolveType(BinaryTypeBinding.java:131)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.enclosingType(BinaryTypeBinding.java:714)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.<init>(BinaryTypeBinding.java:191)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:680)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:676)
+	at org.eclipse.jdt.internal.compiler.Compiler.accept(Compiler.java:298)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.askForType(LookupEnvironment.java:127)
+	at org.eclipse.jdt.internal.compiler.lookup.UnresolvedReferenceBinding.resolve(UnresolvedReferenceBinding.java:54)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.resolveType(BinaryTypeBinding.java:131)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.resolveTypesFor(BinaryTypeBinding.java:1126)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier15.computeSubstituteMethod(MethodVerifier15.java:755)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier15.isParameterSubsignature(MethodVerifier15.java:1005)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier15.areMethodsCompatible(MethodVerifier15.java:42)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier.computeInheritedMethods(MethodVerifier.java:621)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier.computeInheritedMethods(MethodVerifier.java:558)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier.verify(MethodVerifier.java:949)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier15.verify(MethodVerifier15.java:1066)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier.verify(MethodVerifier.java:959)
+	at org.eclipse.jdt.internal.compiler.lookup.SourceTypeBinding.verifyMethods(SourceTypeBinding.java:1946)
+	at org.eclipse.jdt.internal.compiler.lookup.CompilationUnitScope.verifyMethods(CompilationUnitScope.java:792)
+	at org.eclipse.jdt.internal.compiler.Compiler.resolve(Compiler.java:917)
+	at org.eclipse.jdt.internal.compiler.Compiler.resolve(Compiler.java:965)
+	at org.eclipse.jdt.internal.core.CompilationUnitProblemFinder.process(CompilationUnitProblemFinder.java:203)
+	at org.eclipse.jdt.internal.core.CompilationUnitProblemFinder.process(CompilationUnitProblemFinder.java:269)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:190)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:89)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:728)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:788)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1247)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:126)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:108)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:89)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:87)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:151)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:86)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:104)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:77)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:206)
+
+!ENTRY org.eclipse.jdt.ui 4 0 2013-09-24 21:11:35.438
+!MESSAGE Error in JDT Core during reconcile
+!STACK 1
+Java Model Exception: java.lang.NullPointerException
+	at org.eclipse.jdt.internal.core.CompilationUnitProblemFinder.process(CompilationUnitProblemFinder.java:247)
+	at org.eclipse.jdt.internal.core.CompilationUnitProblemFinder.process(CompilationUnitProblemFinder.java:269)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:190)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:89)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:728)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:788)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1247)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:126)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:108)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:89)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:87)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:151)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:86)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:104)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:77)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:206)
+Caused by: java.lang.NullPointerException
+	at org.eclipse.jdt.internal.compiler.lookup.PackageBinding.addType(PackageBinding.java:68)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:695)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:676)
+	at org.eclipse.jdt.internal.compiler.Compiler.accept(Compiler.java:298)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.askForType(LookupEnvironment.java:127)
+	at org.eclipse.jdt.internal.compiler.lookup.UnresolvedReferenceBinding.resolve(UnresolvedReferenceBinding.java:54)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.resolveType(BinaryTypeBinding.java:131)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.enclosingType(BinaryTypeBinding.java:714)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.<init>(BinaryTypeBinding.java:191)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:680)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:676)
+	at org.eclipse.jdt.internal.compiler.Compiler.accept(Compiler.java:298)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.askForType(LookupEnvironment.java:127)
+	at org.eclipse.jdt.internal.compiler.lookup.UnresolvedReferenceBinding.resolve(UnresolvedReferenceBinding.java:54)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.resolveType(BinaryTypeBinding.java:131)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.resolveTypesFor(BinaryTypeBinding.java:1126)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier15.computeSubstituteMethod(MethodVerifier15.java:755)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier15.isParameterSubsignature(MethodVerifier15.java:1005)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier15.areMethodsCompatible(MethodVerifier15.java:42)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier.computeInheritedMethods(MethodVerifier.java:621)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier.computeInheritedMethods(MethodVerifier.java:558)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier.verify(MethodVerifier.java:949)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier15.verify(MethodVerifier15.java:1066)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier.verify(MethodVerifier.java:959)
+	at org.eclipse.jdt.internal.compiler.lookup.SourceTypeBinding.verifyMethods(SourceTypeBinding.java:1946)
+	at org.eclipse.jdt.internal.compiler.lookup.CompilationUnitScope.verifyMethods(CompilationUnitScope.java:792)
+	at org.eclipse.jdt.internal.compiler.Compiler.resolve(Compiler.java:917)
+	at org.eclipse.jdt.internal.compiler.Compiler.resolve(Compiler.java:965)
+	at org.eclipse.jdt.internal.core.CompilationUnitProblemFinder.process(CompilationUnitProblemFinder.java:203)
+	... 16 more
+Caused by: java.lang.NullPointerException
+	at org.eclipse.jdt.internal.compiler.lookup.PackageBinding.addType(PackageBinding.java:68)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:695)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:676)
+	at org.eclipse.jdt.internal.compiler.Compiler.accept(Compiler.java:298)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.askForType(LookupEnvironment.java:127)
+	at org.eclipse.jdt.internal.compiler.lookup.UnresolvedReferenceBinding.resolve(UnresolvedReferenceBinding.java:54)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.resolveType(BinaryTypeBinding.java:131)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.enclosingType(BinaryTypeBinding.java:714)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.<init>(BinaryTypeBinding.java:191)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:680)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:676)
+	at org.eclipse.jdt.internal.compiler.Compiler.accept(Compiler.java:298)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.askForType(LookupEnvironment.java:127)
+	at org.eclipse.jdt.internal.compiler.lookup.UnresolvedReferenceBinding.resolve(UnresolvedReferenceBinding.java:54)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.resolveType(BinaryTypeBinding.java:131)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.resolveTypesFor(BinaryTypeBinding.java:1126)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier15.computeSubstituteMethod(MethodVerifier15.java:755)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier15.isParameterSubsignature(MethodVerifier15.java:1005)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier15.areMethodsCompatible(MethodVerifier15.java:42)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier.computeInheritedMethods(MethodVerifier.java:621)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier.computeInheritedMethods(MethodVerifier.java:558)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier.verify(MethodVerifier.java:949)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier15.verify(MethodVerifier15.java:1066)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier.verify(MethodVerifier.java:959)
+	at org.eclipse.jdt.internal.compiler.lookup.SourceTypeBinding.verifyMethods(SourceTypeBinding.java:1946)
+	at org.eclipse.jdt.internal.compiler.lookup.CompilationUnitScope.verifyMethods(CompilationUnitScope.java:792)
+	at org.eclipse.jdt.internal.compiler.Compiler.resolve(Compiler.java:917)
+	at org.eclipse.jdt.internal.compiler.Compiler.resolve(Compiler.java:965)
+	at org.eclipse.jdt.internal.core.CompilationUnitProblemFinder.process(CompilationUnitProblemFinder.java:203)
+	at org.eclipse.jdt.internal.core.CompilationUnitProblemFinder.process(CompilationUnitProblemFinder.java:269)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:190)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:89)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:728)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:788)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1247)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:126)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:108)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:89)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:87)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:151)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:86)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:104)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:77)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:206)
+!SUBENTRY 1 org.eclipse.jdt.core 4 1005 2013-09-24 21:11:35.438
+!MESSAGE java.lang.NullPointerException
+!STACK 0
+java.lang.NullPointerException
+	at org.eclipse.jdt.internal.compiler.lookup.PackageBinding.addType(PackageBinding.java:68)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:695)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:676)
+	at org.eclipse.jdt.internal.compiler.Compiler.accept(Compiler.java:298)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.askForType(LookupEnvironment.java:127)
+	at org.eclipse.jdt.internal.compiler.lookup.UnresolvedReferenceBinding.resolve(UnresolvedReferenceBinding.java:54)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.resolveType(BinaryTypeBinding.java:131)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.enclosingType(BinaryTypeBinding.java:714)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.<init>(BinaryTypeBinding.java:191)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:680)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.createBinaryTypeFrom(LookupEnvironment.java:676)
+	at org.eclipse.jdt.internal.compiler.Compiler.accept(Compiler.java:298)
+	at org.eclipse.jdt.internal.compiler.lookup.LookupEnvironment.askForType(LookupEnvironment.java:127)
+	at org.eclipse.jdt.internal.compiler.lookup.UnresolvedReferenceBinding.resolve(UnresolvedReferenceBinding.java:54)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.resolveType(BinaryTypeBinding.java:131)
+	at org.eclipse.jdt.internal.compiler.lookup.BinaryTypeBinding.resolveTypesFor(BinaryTypeBinding.java:1126)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier15.computeSubstituteMethod(MethodVerifier15.java:755)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier15.isParameterSubsignature(MethodVerifier15.java:1005)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier15.areMethodsCompatible(MethodVerifier15.java:42)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier.computeInheritedMethods(MethodVerifier.java:621)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier.computeInheritedMethods(MethodVerifier.java:558)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier.verify(MethodVerifier.java:949)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier15.verify(MethodVerifier15.java:1066)
+	at org.eclipse.jdt.internal.compiler.lookup.MethodVerifier.verify(MethodVerifier.java:959)
+	at org.eclipse.jdt.internal.compiler.lookup.SourceTypeBinding.verifyMethods(SourceTypeBinding.java:1946)
+	at org.eclipse.jdt.internal.compiler.lookup.CompilationUnitScope.verifyMethods(CompilationUnitScope.java:792)
+	at org.eclipse.jdt.internal.compiler.Compiler.resolve(Compiler.java:917)
+	at org.eclipse.jdt.internal.compiler.Compiler.resolve(Compiler.java:965)
+	at org.eclipse.jdt.internal.core.CompilationUnitProblemFinder.process(CompilationUnitProblemFinder.java:203)
+	at org.eclipse.jdt.internal.core.CompilationUnitProblemFinder.process(CompilationUnitProblemFinder.java:269)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.makeConsistent(ReconcileWorkingCopyOperation.java:190)
+	at org.eclipse.jdt.internal.core.ReconcileWorkingCopyOperation.executeOperation(ReconcileWorkingCopyOperation.java:89)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.run(JavaModelOperation.java:728)
+	at org.eclipse.jdt.internal.core.JavaModelOperation.runOperation(JavaModelOperation.java:788)
+	at org.eclipse.jdt.internal.core.CompilationUnit.reconcile(CompilationUnit.java:1247)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:126)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.access$0(JavaReconcilingStrategy.java:108)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy$1.run(JavaReconcilingStrategy.java:89)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:87)
+	at org.eclipse.jdt.internal.ui.text.java.JavaReconcilingStrategy.reconcile(JavaReconcilingStrategy.java:151)
+	at org.eclipse.jdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:86)
+	at org.eclipse.jdt.internal.ui.text.JavaCompositeReconcilingStrategy.reconcile(JavaCompositeReconcilingStrategy.java:104)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:77)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:206)
