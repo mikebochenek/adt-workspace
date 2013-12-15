@@ -13,6 +13,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
     private static final String TAG = "MyGLRenderer";
     private Triangle mTriangle;
     private Square   mSquare;
+    private Line mLine;
 
     private final float[] mMVPMatrix = new float[16];
     private final float[] mProjMatrix = new float[16];
@@ -30,6 +31,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         mTriangle = new Triangle();
         mSquare   = new Square();
+        mLine = new Line();
     }
 
     @Override
@@ -46,6 +48,8 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         // Draw square
         mSquare.draw(mMVPMatrix);
+        
+        mLine.draw(mMVPMatrix);
 
         // Create a rotation for the triangle
         //long time = SystemClock.uptimeMillis() % 4000L;
