@@ -13,15 +13,10 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.ImageView;
 
-public class MainActivity extends Activity /* implements 
-		GestureDetector.OnGestureListener,
- 		GestureDetector.OnDoubleTapListener*/  {
+public class MainActivity extends Activity {
 
-	/* https://developer.android.com/reference/android/util/Log.html */
 	private static final String TAG = "MyPuzzleActivity";
 	
-	private int touchCount = 0;
-	private int selectedCount = 0;
 	private PuzzleTile[] tiles = new PuzzleTile[8];
 	private ImageView[] images = new ImageView[8];
 	private final int[] imageIds = {R.id.imageView1, R.id.imageView2, R.id.imageView3, R.id.imageView4, R.id.imageView5, R.id.imageView6, R.id.imageView7, R.id.imageView8};
@@ -44,18 +39,9 @@ public class MainActivity extends Activity /* implements
         	
     		imgView.setOnTouchListener(new OnTouchListener() {
     			public boolean onTouch(View v, MotionEvent event) {
-    				//Log.i(TAG, "inside my touch event -- " + event.getDownTime() + " ms");
+    				Log.i(TAG, "inside my touch event -- " + event.getDownTime() + " ms");
     				
-    				if (v instanceof ImageView && selectedCount < 3 && touchCount < 2) {
-    					touchCount++;
-
-    					if (touchCount == 0) { return true; }
-    					
-    					//selectedCount++;
-    					
-    					if (touchCount == 2) {
-    						touchCount = 0;
-    					}
+    				if (v instanceof ImageView) {
     					
     					PuzzleTile tile = tiles[findIndex((ImageView)v)];
     					if (tile.isFaceup()) { // && !isDoubleTouch(event.getDownTime(), tile.getLastTouchTS())) {
@@ -76,14 +62,6 @@ public class MainActivity extends Activity /* implements
         //getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-    
-    /*
-    private boolean isDoubleTouch(long x, long y) {
-    	Log.i(TAG, x + " " + y + " " + ((x - y)));
-    	return (x - y) > 100;
-    }
-    */
-
 
 	private void generateTiles() {
     	for (int i = 0; i < imageIds.length; i++) {
