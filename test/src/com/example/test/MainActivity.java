@@ -64,6 +64,7 @@ public class MainActivity extends Activity {
         						
         						if (getMatchedCount() == tiles.length) {
         							//TODO you've won the game
+        					    	generateTiles(); // but this isn't enough because we'd need to redraw etc.
         						}
         						
             		    	} else {
@@ -72,6 +73,7 @@ public class MainActivity extends Activity {
                 		    	
                 		    	if (selectionCount == 2) {
                 		    		Log.i(TAG, "we should probably auto-hide after a delay");
+                		    		
                 		    	}
             		    	}
     					} else {
