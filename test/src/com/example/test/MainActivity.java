@@ -44,7 +44,7 @@ public class MainActivity extends Activity /* implements
         	
     		imgView.setOnTouchListener(new OnTouchListener() {
     			public boolean onTouch(View v, MotionEvent event) {
-    				Log.i(TAG, "inside my touch event -- " + event.getDownTime() + " ms");
+    				//Log.i(TAG, "inside my touch event -- " + event.getDownTime() + " ms");
     				
     				if (v instanceof ImageView && selectedCount < 3 && touchCount < 2) {
     					touchCount++;
@@ -58,15 +58,16 @@ public class MainActivity extends Activity /* implements
     					}
     					
     					PuzzleTile tile = tiles[findIndex((ImageView)v)];
-    					if (tile.isFaceup()) {
+    					if (tile.isFaceup()) { // && !isDoubleTouch(event.getDownTime(), tile.getLastTouchTS())) {
     						((ImageView)v).setImageResource(R.drawable.question);
     						tile.setFaceup(false);
     					} else {
             		    	((ImageView)v).setImageResource(tile.getImageId());
             		    	tile.setFaceup(true);
+            		    	tile.setLastTouchTS(event.getDownTime());
     					}
     				}
-    				return true;
+    				return false;
     			}
     		});
     	}
@@ -75,6 +76,13 @@ public class MainActivity extends Activity /* implements
         //getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+    
+    /*
+    private boolean isDoubleTouch(long x, long y) {
+    	Log.i(TAG, x + " " + y + " " + ((x - y)));
+    	return (x - y) > 100;
+    }
+    */
 
 
 	private void generateTiles() {
