@@ -17,6 +17,8 @@ public class MainActivity extends Activity {
 
 	private static final String TAG = "MyPuzzleActivity";
 	
+	private PuzzleTile currentSelection;
+	private int selectionCount;
 	private PuzzleTile[] tiles = new PuzzleTile[8];
 	private ImageView[] images = new ImageView[8];
 	private final int[] imageIds = {R.id.imageView1, R.id.imageView2, R.id.imageView3, R.id.imageView4, R.id.imageView5, R.id.imageView6, R.id.imageView7, R.id.imageView8};
@@ -39,19 +41,34 @@ public class MainActivity extends Activity {
         	
     		imgView.setOnTouchListener(new OnTouchListener() {
     			public boolean onTouch(View v, MotionEvent event) {
-    				Log.i(TAG, "inside my touch event -- " + event.getDownTime() + " ms");
+    				Log.i(TAG, " " + event.getDownTime() + " ms");
     				
     				if (v instanceof ImageView) {
     					
     					PuzzleTile tile = tiles[findIndex((ImageView)v)];
-    					if (tile.isFaceup()) { // && !isDoubleTouch(event.getDownTime(), tile.getLastTouchTS())) {
+    					if (tile.isFaceup() && !tile.isMatched()) { 
     						((ImageView)v).setImageResource(R.drawable.question);
     						tile.setFaceup(false);
-    					} else {
+    						currentSelection = null;
+    						selectionCount--;
+    					} else if (selectionCount < 2) {
             		    	((ImageView)v).setImageResource(tile.getImageId());
             		    	tile.setFaceup(true);
             		    	tile.setLastTouchTS(event.getDownTime());
+            		    	
+            		    	if (currentSelection != null && tile.getImageId() == currentSelection.getImageId()) {
+            		    		tile.setMatched(true);
+            		    		currentSelection.setMatched(true);
+            		    		currentSelection = null;
+        						selectionCount = 0;
+            		    	} else {
+                		    	currentSelection = tile;
+                		    	selectionCount++;
+            		    	}
+    					} else {
+    						Log.i(TAG, "you idiot, you already selected two");
     					}
+    					
     				}
     				return false;
     			}
