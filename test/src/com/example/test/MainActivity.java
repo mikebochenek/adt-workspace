@@ -44,10 +44,7 @@ public class MainActivity extends Activity /* implements
         	
     		imgView.setOnTouchListener(new OnTouchListener() {
     			public boolean onTouch(View v, MotionEvent event) {
-    				Log.i(TAG, "inside my touch event");
-    				
-    				boolean b = event.getDownTime() > 5;
-    				Log.i(TAG, " -- " + event.getDownTime() + " ms");
+    				Log.i(TAG, "inside my touch event -- " + event.getDownTime() + " ms");
     				
     				if (v instanceof ImageView && selectedCount < 3 && touchCount < 2) {
     					touchCount++;
