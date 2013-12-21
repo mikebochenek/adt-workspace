@@ -41,17 +41,16 @@ public class MainActivity extends Activity {
         	
     		imgView.setOnTouchListener(new OnTouchListener() {
     			public boolean onTouch(View v, MotionEvent event) {
-    				Log.i(TAG, " " + event.getDownTime() + " ms");
     				
     				if (v instanceof ImageView) {
     					
     					PuzzleTile tile = tiles[findIndex((ImageView)v)];
-    					if (tile.isFaceup() && !tile.isMatched()) { 
+    					if (tile.isFaceup() && !tile.isMatched()) { // deselect a non-matched tile
     						((ImageView)v).setImageResource(R.drawable.question);
     						tile.setFaceup(false);
     						currentSelection = null;
     						selectionCount--;
-    					} else if (selectionCount < 2) {
+    					} else if (selectionCount < 2) { 
             		    	((ImageView)v).setImageResource(tile.getImageId());
             		    	tile.setFaceup(true);
             		    	tile.setLastTouchTS(event.getDownTime());
@@ -61,15 +60,28 @@ public class MainActivity extends Activity {
             		    		currentSelection.setMatched(true);
             		    		currentSelection = null;
         						selectionCount = 0;
+        						//TODO animate a border or something
+        						
+        						if (getMatchedCount() == tiles.length) {
+        							//TODO you've won the game
+        						}
+        						
             		    	} else {
                 		    	currentSelection = tile;
                 		    	selectionCount++;
+                		    	
+                		    	if (selectionCount == 2) {
+                		    		Log.i(TAG, "we should probably auto-hide after a delay");
+                		    	}
             		    	}
     					} else {
     						Log.i(TAG, "you idiot, you already selected two");
     					}
     					
     				}
+    				
+    				Log.i(TAG, getGameStateString());
+    				
     				return false;
     			}
     		});
@@ -106,4 +118,17 @@ public class MainActivity extends Activity {
     	return -1;
     }
     
+    private String getGameStateString() {
+    	return "selectCnt=" + selectionCount + " matched=" + getMatchedCount();
+    }
+    
+    private int getMatchedCount() {
+    	int count = 0;
+    	for (PuzzleTile tile : tiles) {
+    		if (tile.isMatched()) {
+    			count++;
+    		}
+    	}
+    	return count;
+    }
 }
