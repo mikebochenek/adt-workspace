@@ -11,8 +11,8 @@ import android.util.Log;
 public class MyGLRenderer implements GLSurfaceView.Renderer {
 
     private static final String TAG = "MyGLRenderer";
-    private Triangle mTriangle;
-    private Square   mSquare;
+    //private Triangle mTriangle;
+    //private Square   mSquare;
     private Line mLine;
 
     private final float[] mMVPMatrix = new float[16];
@@ -29,8 +29,7 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
         // Set the background frame color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-        mTriangle = new Triangle();
-        mSquare   = new Square();
+
         mLine = new Line();
     }
 
@@ -45,22 +44,9 @@ public class MyGLRenderer implements GLSurfaceView.Renderer {
 
         // Calculate the projection and view transformation
         Matrix.multiplyMM(mMVPMatrix, 0, mProjMatrix, 0, mVMatrix, 0);
-
-        // Draw square
-        mSquare.draw(mMVPMatrix);
         
         mLine.draw(mMVPMatrix);
 
-        // Create a rotation for the triangle
-        //long time = SystemClock.uptimeMillis() % 4000L;
-        //float angle = 0.090f * ((int) time);
-        Matrix.setRotateM(mRotationMatrix, 0, mAngle, 0, 0, -1.0f);
-
-        // Combine the rotation matrix with the projection and camera view
-        Matrix.multiplyMM(mMVPMatrix, 0, mRotationMatrix, 0, mMVPMatrix, 0);
-
-        // Draw triangle
-        mTriangle.draw(mMVPMatrix);
     }
 
     @Override
